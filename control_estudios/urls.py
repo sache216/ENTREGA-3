@@ -2,9 +2,11 @@ from django.urls import path
 
 from control_estudios.views import (
     listar_estudiantes, listar_cursos, crear_curso, buscar_cursos,
-    buscar_estudiantes,
+    buscar_estudiantes, buscar_profesores,
     eliminar_curso, editar_curso, EstudianteListView, EstudianteCreateView,
-    EstudianteDetailView, EstudianteUpdateView, EstudianteDeleteView
+    EstudianteDetailView, EstudianteUpdateView, EstudianteDeleteView,ProfesorCreateView,
+    ProfesorListView, ProfesorCreateView,
+    ProfesorDetailView, ProfesorUpdateView, ProfesorDeleteView,
 )
 
 # Son las URLS de la app control_estudios
@@ -22,4 +24,13 @@ urlpatterns = [
     path("editar-estudiante/<int:pk>/", EstudianteUpdateView.as_view(), name="editar_estudiante"),
     path("eliminar-estudiante/<int:pk>/", EstudianteDeleteView.as_view(), name="eliminar_estudiante"),
     path("buscar-estudiantes/", buscar_estudiantes, name="buscar_estudiantes"),
+    
+    path("profesores/", ProfesorListView.as_view(), name="lista_profesores"),
+    path("profesores/<int:pk>/", ProfesorDetailView.as_view(), name="ver_profesor"),
+    path("crear-profesor/", ProfesorCreateView.as_view(), name="crear_profesor"),
+    path("editar-profesor/<int:pk>/", ProfesorUpdateView.as_view(), name="editar_profesor"),
+    path("eliminar-profesor/<int:pk>/", ProfesorDeleteView.as_view(), name="eliminar_profesor"),
+    path("buscar-profesores/", buscar_profesores, name="buscar_profesor"),
+    
+    
 ]

@@ -4,7 +4,7 @@ from django.views.generic import ListView, CreateView, DetailView, UpdateView, D
 from django.db.models import Q
 
 from control_estudios.forms import CursoFormulario
-from control_estudios.models import Estudiante, Curso
+from control_estudios.models import Estudiante, Curso, Profesor
 
 
 def listar_estudiantes(request):
@@ -193,3 +193,51 @@ class EstudianteUpdateView(UpdateView):
 class EstudianteDeleteView(DeleteView):
     model = Estudiante
     success_url = reverse_lazy('lista_estudiantes')
+    
+    
+    
+# Vistas de profesores (basadas en clases)  
+class ProfesorListView(ListView):
+    model = Profesor
+    template_name = 'control_estudios/lista_profesores.html'
+
+
+class ProfesorCreateView(CreateView):
+    model = Profesor
+    fields = ('apellido', 'nombre', 'email', 'dni')
+    success_url = reverse_lazy('lista_profesores')
+
+
+class ProfesorDetailView(DetailView):
+    model = Profesor
+    success_url = reverse_lazy('lista_profesores')
+
+
+class ProfesorUpdateView(UpdateView):
+    model = Profesor
+    fields = ('apellido', 'nombre', 'email', 'dni')
+    success_url = reverse_lazy('lista_profesores')
+
+
+class ProfesorDeleteView(DeleteView):
+    model = Profesor
+    success_url = reverse_lazy('lista_profesores')
+    
+    
+def buscar_profesores(request):
+    if request.method == "POST":
+        data = request.POST
+        busqueda = data["busqueda"]
+        profesores = Profesores.objects.filter(
+            Q(nombre__icontains=busqueda) | Q(apellido__contains=busqueda)
+        )
+
+        contexto = {
+            "profesores": profesor,
+        }
+        http_response = render(
+            request=request,
+            template_name='control_estudios/lista_profesores.html',
+            context=contexto,
+        )
+        return http_response
